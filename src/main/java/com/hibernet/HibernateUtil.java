@@ -3,7 +3,9 @@ package com.hibernet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -15,8 +17,14 @@ import com.hibernet.entity.person;
 
 public class HibernateUtil
 {
+    static Session sessionObj;
+
+
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
+
+    public static Session session = null;
+    public static Transaction transaction = null;
 
     public static SessionFactory getSessionFactory()
     {
@@ -42,8 +50,7 @@ public class HibernateUtil
                 settings.put(Environment.C3P0_MAX_SIZE, 20);        //Maximum size of pool
                 settings.put(Environment.C3P0_TIMEOUT, 10);       //Connection idle time in second
                 settings.put(Environment.C3P0_MAX_STATEMENTS, 150); //PreparedStatement cache size
-//                settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 6);
-
+                settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 6);
                 registryBuilder.applySettings(settings);
 
                 registry = registryBuilder.build();
@@ -69,5 +76,25 @@ public class HibernateUtil
         }
     }
 
+    public static void createRecord()
+    {
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            person Person = new person();
+            Person.setName("farhanFuadRonok");
+            session.save(Person);
+            transaction.commit();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }
