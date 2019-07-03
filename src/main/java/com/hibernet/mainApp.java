@@ -14,15 +14,7 @@ public class mainApp
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-
             transaction = session.beginTransaction();
-
-            if(transaction.isActive()){
-                transaction.rollback();
-            }
-
-            transaction.begin();
-
             person Person = new person();
             Person.setName("farhanFuadRonok");
             session.save(Person);

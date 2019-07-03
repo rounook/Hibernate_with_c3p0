@@ -42,7 +42,7 @@ public class HibernateUtil
                 settings.put(Environment.C3P0_MAX_SIZE, 20);        //Maximum size of pool
                 settings.put(Environment.C3P0_TIMEOUT, 10);       //Connection idle time in second
                 settings.put(Environment.C3P0_MAX_STATEMENTS, 150); //PreparedStatement cache size
-                settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 6);
+//                settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 6);
 
                 registryBuilder.applySettings(settings);
 
